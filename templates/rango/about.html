@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-{% load staticfiles %}
+{%  extends 'rango/base.html' %}
 
-<html>
+{% load rango_template_tags %}
 
-<title>
+{% block title_block %}
     About Rango
-</title>
+{% endblock %}
 
-<body>
-    <h1>Rango says...</h1>
-    <div>
-        here is the about page. <br />
-        <strong>This tutorial has been put together by Mark Turnbull.</strong><br />
-{#        Visits: {{ visits }}#}
-    </div>
-    <div>
-        <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango" />
-        <img src="{{ MEDIA_URL }}cat.jpg" alt="Picture of a Cat." />
-        <b></b>
-    </div>
-</body>
+{% block body_block %}
+    <h1>Add a Category</h1>
+        <div>
+            <form id="category_form" method="post" action="/rango/add_category/">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }}
+                {% endfor %}
+                <input type="submit" name="submit" value="Create Category" />
+            </form>
+        </div>
 
-</html>
+{% endblock %}
